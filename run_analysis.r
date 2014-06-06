@@ -29,4 +29,21 @@ x_train <- read.table(files["x_train"])
 y_train <- read.table(files["y_train"])
 subject_train <- read.table(files["subject_train"])
 
+## Provided the raw features dataframe, return a vector of cleaned names 
+## (make lowercase and remove nonletter chars)
+clean_features <- function(x) {
+    y <- x$V2
+    y <- tolower(y)
+    y <- gsub("\\W", "", y)
+    y
+}
+
+
+merged_test <- x_test
+colnames(merged_test) <- clean_features(features)
+merged_test <- cbind(y_test, subject_test, merged_test)
+names(merged_test)[1:2] <- c('activitynumber', 'subject')
+activitylabel <- activity_labels$V2[merged_x$activitynumber]
+merged_test <- cbind(activitylabel, merged_test)
+
 
