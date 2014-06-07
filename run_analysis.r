@@ -1,5 +1,7 @@
 ## run_analysis.r 
 
+## PART 0: LOAD THE DATA FROM THE FILES
+
 ## Folder where the data lives
 data_folder <- "UCI\ HAR\ Dataset"
 
@@ -29,6 +31,7 @@ x_train <- read.table(files["x_train"])
 y_train <- read.table(files["y_train"])
 subject_train <- read.table(files["subject_train"])
 
+
 ## Provided the raw features dataframe, return a vector of cleaned names 
 ## (make lowercase and remove nonletter chars)
 clean_features <- function(x) {
@@ -39,11 +42,39 @@ clean_features <- function(x) {
 }
 
 
-merged_test <- x_test
-colnames(merged_test) <- clean_features(features)
-merged_test <- cbind(y_test, subject_test, merged_test)
-names(merged_test)[1:2] <- c('activitynumber', 'subject')
-activitylabel <- activity_labels$V2[merged_x$activitynumber]
-merged_test <- cbind(activitylabel, merged_test)
+## PART 1: MERGE SEPARATE DATAFRAMES INTO A SINGLE TIDY DATAFRAME
 
+## Combine test and train data
+x <- rbind(x_test, x_train)
+y <- rbind(y_test, y_train)
+subject <- rbind(subject_test, subject_train)$V1
+
+## Apply the feature names to the data
+colnames(x) <- clean_features(features)
+
+## Subset the data to keep only mean and std of the measurements
+mean_and_std_data <- x[, grep("(mean|std)[xyz]?$", colnames(x))]
+
+## Use the y data to get the labeled activities
+activity <- activity_labels$V2[y$V1]
+
+## Merged the selected feature data with the subject and labeled activity
+tidy_data <- cbind(subject, activity, mean_and_std_data)
+
+## Save the tidy data to a file
+write.table(tidy_data, file="tidy_mean_and_std_data.txt")
+
+
+## PART 2: CREATE A SECOND TIDY DATAFRAME OF THE AVERAGE OF EACH FEATURE BY SUBJECT AND ACTIVITY
+
+library(reshape2)
+
+## Melt data to make each feature column into a rows 
+mtidy_data <- melt(tidy_data, id.vars = c('subject', 'activity'), variable.name = "feature", value.name = "measurement")
+
+## Cast data back into wide table while applying the mean function
+data_feature_averages <- dcast(mtidy_data, subject + activity ~ feature, mean, value.var = "measurement")
+
+## Save the tidy data to a file
+write.table(data_feature_averages, file="tidy_feature_averages.txt")
 
