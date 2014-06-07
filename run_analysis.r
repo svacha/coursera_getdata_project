@@ -72,6 +72,9 @@ library(reshape2)
 ## Melt data to make each feature column into a rows 
 mtidy_data <- melt(tidy_data, id.vars = c('subject', 'activity'), variable.name = "feature", value.name = "measurement")
 
+## Append 'avg' to the feature labels for clarity
+mtidy_data$feature <- sub("(.*)", "\\1avg", mtidy_data$feature)
+
 ## Cast data back into wide table while applying the mean function
 data_feature_averages <- dcast(mtidy_data, subject + activity ~ feature, mean, value.var = "measurement")
 
