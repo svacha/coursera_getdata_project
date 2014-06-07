@@ -14,9 +14,11 @@ http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartpho
 The data:
 https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
 
+The script `run_analysis.r` assumes this data has been downloaded and unzipped into the folder `UCI HAR Dataset` within the working directory in R.
+
 ## Assignment
 
-The instructions request that an R script called run_analysis.r does the following:
+The instructions request that an R script called `run_analysis.r` does the following:
 * Merges the training and the test sets to create one data set.
 * Extracts only the measurements on the mean and standard deviation for each measurement. 
 * Uses descriptive activity names to name the activities in the data set
@@ -33,9 +35,7 @@ This file contains the output addressing the first 4 bullet points of the assign
 * uses cleaned feature labels
 
 ### tidy_feature_averages.txt
-This file addresses the last bullet point of the assignment, namely, averaging the feature data for each activities and subject.
-
-The feature labels in this dataset have been appended with 'avg' to clarify that they do not correspond to single measurement.
+This file addresses the last bullet point of the assignment, namely, averaging the feature data for each activities and subject. The feature labels in this dataset have been appended with 'avg' to clarify that they do not correspond to single measurement.
 
 
 
