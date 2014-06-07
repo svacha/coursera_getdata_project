@@ -3,7 +3,7 @@ Coursera - Getting and Cleaning Data - Course Project
 
 ## Overview
 
-Using the UCI "Human Activity Recognition Using Smartphones" dataset, we are going to collect the data into a tidy dataset and calculate some averages.
+Using the UCI "Human Activity Recognition Using Smartphones" dataset, we are going to collect the data into a tidy dataset and calculate averages by subject and activity.
 
 
 ## Data source
